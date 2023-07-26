@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+#include "muParser.h"
+
+double calculateExpression(const std::string& expression) {
+    mu::Parser parser;
+    parser.SetExpr(expression);
+
+    try {
+        return parser.Eval();
+    }
+    catch (mu::Parser::exception_type& e) {
+        std::cout << "Error: " << e.GetMsg() << std::endl;
+        return NAN;
+    }
+}
+
+int main() {
+    std::string expression1 = "2 + 3 * 5";
+    std::string expression2 = "(10 - 5) / 2";
+    std::string expression3 = "1 / 0";
+
+    std::cout << calculateExpression(expression1) << std::endl;  // Output: 17
+    std::cout << calculateExpression(expression2) << std::endl;  // Output: 2.5
+    std::cout << calculateExpression(expression3) << std::endl;  // Output: Error: division by zero
+
+    return 0;
+}
